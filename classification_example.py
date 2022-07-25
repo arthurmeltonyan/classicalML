@@ -48,7 +48,13 @@ def main():
                                                           n_features=10,
                                                           random_state=2020)
     check_classifier(*classification_dataset,
-                     rf.RandomForestClassifier(estimators=2, max_depth=8, min_samples=8))
+                     lm.LinearClassifier(alpha=0.001, epochs=1000))
+    check_classifier(*classification_dataset,
+                     dt.DecisionTreeClassifier(max_depth=8, min_samples=8))
+    check_classifier(*classification_dataset,
+                     knn.KNearestNeighborsClassifier(k=5))
+    check_classifier(*classification_dataset,
+                     rf.RandomForestClassifier(estimators=15, max_depth=8, min_samples=8))
     check_classifier(*classification_dataset,
                      svm.LinearSupportVectorClassifier(alpha=0.001, epochs=1000, parameter=1.0))
     check_classifier(*classification_dataset,
