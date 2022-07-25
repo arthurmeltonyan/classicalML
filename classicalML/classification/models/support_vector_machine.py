@@ -48,7 +48,7 @@ class LinearSupportVectorClassifier:
         self._bias = 0
         self._weights = np.zeros(k)
         indices = np.random.choice(X_train.shape[0],
-                                   np.minimum(self._epochs, X_train.shape[0]),
+                                   size=np.minimum(self._epochs, X_train.shape[0]),
                                    replace=False)
 
         for epoch, index in enumerate(auto.tqdm(indices)):

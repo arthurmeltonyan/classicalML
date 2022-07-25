@@ -19,6 +19,8 @@ def confusion_matrix(Y_actual,
         elif y_actual == 1 and y_predicted == 0:
             matrix['false_negative'] += 1
 
+    matrix = dict(matrix)
+
     return matrix
 
 
@@ -27,9 +29,9 @@ def accuracy_score(Y_actual,
 
     matrix = confusion_matrix(Y_actual,
                               Y_predicted)
-    true = matrix['true_positive'] + matrix['true_negative']
-    everything = np.sum(matrix.values())
-    true_ratio = true / everything
+    actual_true = matrix['true_positive'] + matrix['true_negative']
+    actual_false = matrix['false_positive'] + matrix['false_negative']
+    true_ratio = actual_true / (actual_true + actual_false)
 
     return true_ratio
 
@@ -39,9 +41,9 @@ def error_score(Y_actual,
 
     matrix = confusion_matrix(Y_actual,
                               Y_predicted)
-    false = matrix['false_positive'] + matrix['false_negative']
-    everything = np.sum(matrix.values())
-    false_ratio = false / everything
+    actual_false = matrix['false_positive'] + matrix['false_negative']
+    actual_true = matrix['true_positive'] + matrix['true_negative']
+    false_ratio = actual_false / (actual_false + actual_true)
 
     return false_ratio
 
@@ -135,9 +137,9 @@ def jaccrad_score(Y_actual,
     matrix = confusion_matrix(Y_actual,
                               Y_predicted)
     true_positive = matrix['true_positive']
-    not_true_negative = matrix['false_negative'] + matrix['true_positive'] + matrix['false_positive']
+    not_false_negative = matrix['false_negative'] + matrix['true_positive'] + matrix['false_positive']
 
-    return true_positive / not_true_negative
+    return true_positive / not_false_negative
 
 
 def informedness_score(Y_actual,
@@ -184,6 +186,15 @@ def negative_likelihood_ratio(Y_actual,
     return false_negative_rate / true_negative_rate
 
 
+def matthews_correlation_score(Y_actual,
+                               Y_predicted):
+
+    correlation = np.correlate(Y_actual,
+                               Y_predicted)[0]
+
+    return correlation
+
+
 def f_score(Y_actual,
             Y_predicted,
             beta=1):
@@ -194,12 +205,3 @@ def f_score(Y_actual,
                                                 Y_predicted)
 
     return (1 + beta ** 2) / (1 / true_positive_rate + (beta ** 2) / positive_predictive_value)
-
-
-def matthews_correlation_score(Y_actual,
-                               Y_predicted):
-
-    correlation = np.correlate(Y_actual,
-                               Y_predicted)
-
-    return correlation

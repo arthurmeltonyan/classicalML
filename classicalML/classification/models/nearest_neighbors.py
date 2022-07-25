@@ -17,7 +17,7 @@ class KNearestNeighborsClassifier:
                f'(n={self._k})'
 
     @staticmethod
-    def _value(Y_subset):
+    def _predict_for_sample(Y_subset):
 
         return np.bincount(Y_subset).argmax()
 
@@ -29,16 +29,16 @@ class KNearestNeighborsClassifier:
         self._Y_train = Y_train
 
     def predict(self,
-                X_validation):
+                X):
 
         Y_predicted = []
 
-        for x_validation in auto.tqdm(X_validation):
+        for x in auto.tqdm(X):
 
-            distances = np.array([np.sqrt(np.sum((x - x_validation) ** 2))
-                                  for x in self._X_train])
+            distances = np.array([np.sqrt(np.sum((x_train - x) ** 2))
+                                  for x_train in self._X_train])
             indices = np.argsort(distances)[:self._k]
-            y_predicted = self._value(self._Y_train[indices])
+            y_predicted = self._predict_for_sample(self._Y_train[indices])
             Y_predicted.append(y_predicted)
 
         return np.array(Y_predicted)

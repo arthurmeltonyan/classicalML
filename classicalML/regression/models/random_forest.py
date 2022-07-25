@@ -2,7 +2,7 @@ from tqdm import auto
 import numpy as np
 
 
-import decision_tree as dt
+from classicalML.regression.models import decision_tree as dt
 
 
 class RandomForestRegressor:
@@ -25,6 +25,12 @@ class RandomForestRegressor:
                f' max_depth={self._max_depth},' \
                f' min_samples={self._min_samples})'
 
+    def _predict_for_sample(self,
+                            x):
+
+        return np.mean([estimator.predict(x)
+                        for estimator in self._estimators])
+
     def fit(self,
             X_train,
             Y_train):
@@ -32,7 +38,7 @@ class RandomForestRegressor:
         for estimator in auto.tqdm(self._estimators):
 
             indices = np.random.choice(X_train.shape[0],
-                                       X_train.shape[0],
+                                       size=X_train.shape[0],
                                        replace=True)
             estimator.fit(X_train[indices],
                           Y_train[indices])
@@ -40,5 +46,10 @@ class RandomForestRegressor:
     def predict(self,
                 X):
 
-        return np.mean([estimator.predict(X)
-                        for estimator in self._estimators], axis=0)
+        Y_predicted = []
+
+        for x in X:
+            y_predicted = self._predict_for_sample(x)
+            Y_predicted.append(y_predicted)
+
+        return Y_predicted
