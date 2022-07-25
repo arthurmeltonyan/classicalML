@@ -189,8 +189,8 @@ def negative_likelihood_ratio(Y_actual,
 def matthews_correlation_score(Y_actual,
                                Y_predicted):
 
-    correlation = np.correlate(Y_actual,
-                               Y_predicted)[0]
+    correlation = np.corrcoef(Y_actual,
+                              Y_predicted)[0][1]
 
     return correlation
 
