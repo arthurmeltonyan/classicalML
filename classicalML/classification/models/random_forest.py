@@ -36,7 +36,6 @@ class RandomForestClassifier:
             Y_train):
 
         for estimator in auto.tqdm(self._estimators):
-
             indices = np.random.choice(X_train.shape[0],
                                        size=X_train.shape[0],
                                        replace=True)
@@ -49,7 +48,6 @@ class RandomForestClassifier:
         Y_predicted = []
 
         for x in X:
-
             y_predicted = self._predict_for_sample(x)
             Y_predicted.append(y_predicted)
 

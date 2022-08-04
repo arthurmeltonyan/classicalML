@@ -60,7 +60,7 @@ class DecisionTreeRegressor:
         return variance - (left_term + right_term)
 
     @staticmethod
-    def _value(Y_subset):
+    def _predict_for_sample(Y_subset):
 
         return np.mean(Y_subset)
 
@@ -70,8 +70,7 @@ class DecisionTreeRegressor:
                      depth):
 
         if depth == self._max_depth or Y_subset.shape[0] < self._min_samples:
-
-            y_predicted = self._value(Y_subset)
+            y_predicted = self._predict_for_sample(Y_subset)
             return LeafNode(value=y_predicted)
 
         max_feature = 0
@@ -87,16 +86,12 @@ class DecisionTreeRegressor:
 
             unique_values = np.sort(np.unique(values))
             thresholds = (unique_values[1:] + unique_values[:-1]) / 2
-
             for threshold in thresholds:
-
                 left_indices = np.argwhere(values <= threshold).flatten()
                 right_indices = np.argwhere(values > threshold).flatten()
                 information_gain = self._impurity(Y_subset[left_indices],
                                                   Y_subset[right_indices])
-
                 if max_information_gain < information_gain:
-
                     max_feature = feature
                     max_threshold = threshold
                     max_left_indices = left_indices
@@ -131,9 +126,7 @@ class DecisionTreeRegressor:
         for x in X:
 
             node = self._tree
-
             while isinstance(node, BranchNode):
-
                 if x[node.feature] <= node.threshold:
                     node = node.left
                 else:

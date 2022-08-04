@@ -56,7 +56,6 @@ class LinearRegressor:
             self._weights -= self._alpha * gradient_weights
 
             if int(epoch * 100 / self._epochs) > int((epoch - 1) * 100 / self._epochs) and self._report:
-
                 auto.tqdm.write(f'{epoch:>10}: {str(self._cost(X_train, Y_train))}')
 
     def predict(self,

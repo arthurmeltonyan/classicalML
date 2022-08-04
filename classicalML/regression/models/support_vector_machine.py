@@ -59,22 +59,16 @@ class LinearSupportVectorRegressor:
             x = X_train[index]
             y = Y_train[index]
             error = self._hypothesis(x) - y
-
             if abs(error) <= self._epsilon:
-
                 gradient_bias = 0
                 gradient_weights = self._weights
-
             else:
-
                 gradient_bias = 2 * self._parameter * (error - np.sign(error) * self._epsilon)
                 gradient_weights = self._weights + 2 * self._parameter * (error - np.sign(error) * self._epsilon) * x
-
             self._bias -= self._alpha * gradient_bias
             self._weights -= self._alpha * gradient_weights
 
             if int(epoch * 100 / self._epochs) > int((epoch - 1) * 100 / self._epochs) and self._report:
-
                 auto.tqdm.write(f'{epoch:>10}: {str(self._cost(X_train, Y_train))}')
 
     def predict(self,

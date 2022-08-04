@@ -34,7 +34,6 @@ class KNearestNeighborsClassifier:
         Y_predicted = []
 
         for x in auto.tqdm(X):
-
             distances = np.array([np.sqrt(np.sum((x_train - x) ** 2))
                                   for x_train in self._X_train])
             indices = np.argsort(distances)[:self._k]

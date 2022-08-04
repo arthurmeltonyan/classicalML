@@ -26,7 +26,6 @@ class NaiveBayesClassifier:
         self._y_prior_probabilities = np.zeros(m)
 
         for y_class in self._y_classes:
-
             indices = np.argwhere(Y_train == y_class)
             self._y_means[y_class, :] = np.mean(X_train[indices], axis=0)
             self._y_variances[y_class, :] = np.var(X_train[indices], axis=0)
@@ -40,9 +39,7 @@ class NaiveBayesClassifier:
         for x in X:
 
             y_log_posterior_probabilities = []
-
             for y_class in self._y_classes:
-
                 log_likelihood = np.sum(np.log(self._hypothesis(x, y_class)))
                 y_log_prior_probability = np.log(self._y_prior_probabilities[y_class])
                 y_log_posterior_probability = y_log_prior_probability + log_likelihood

@@ -57,8 +57,7 @@ class LinearClassifier:
             self._bias -= self._alpha * gradient_bias
             self._weights -= self._alpha * gradient_weights
 
-            if int(epoch * 100 / self._epochs) > int((epoch - 1) * 100 / self._epochs) and self._report:
-
+            if self._report and int(epoch * 100 / self._epochs) > int((epoch - 1) * 100 / self._epochs):
                 auto.tqdm.write(f'{epoch:>10}: {str(self._cost(X_train, Y_train))}')
 
     def predict(self,

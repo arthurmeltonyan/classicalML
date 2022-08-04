@@ -36,7 +36,6 @@ class RandomForestRegressor:
             Y_train):
 
         for estimator in auto.tqdm(self._estimators):
-
             indices = np.random.choice(X_train.shape[0],
                                        size=X_train.shape[0],
                                        replace=True)
