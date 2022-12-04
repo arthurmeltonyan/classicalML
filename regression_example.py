@@ -18,17 +18,19 @@ def check_regressor(X,
                                                                                       validation_fraction=0.2)
     regressor.fit(X_train,
                   Y_train)
-    Y_predicated = regressor.predict(X_validation)
+    Y_predicted = regressor.predict(X_validation)
     print(regressor)
-    print(f'root_mean_squared_error = {metrics.root_mean_squared_error(Y_predicated, Y_validation)}')
-    print(f'root_median_squared_error = {metrics. root_median_squared_error(Y_predicated, Y_validation)}')
-    print(f'root_mean_squared_log_error = {metrics.root_mean_squared_log_error(Y_predicated, Y_validation)}')
-    print(f'root_median_squared_log_error = {metrics.root_median_squared_log_error(Y_predicated, Y_validation)}')
-    print(f'mean_absolute_error = {metrics.mean_absolute_error(Y_predicated, Y_validation)}')
-    print(f'median_absolute_error = {metrics.median_absolute_error(Y_predicated, Y_validation)}')
-    print(f'mean_absolute_log_error = {metrics.mean_absolute_log_error(Y_predicated, Y_validation)}')
-    print(f'median_absolute_log_error = {metrics.median_absolute_log_error(Y_predicated, Y_validation)}')
-    print(f'maximum_absolute_error = {metrics.maximum_absolute_error(Y_predicated, Y_validation)}')
+    for metric in [metrics.root_mean_squared_error,
+                   metrics.root_median_squared_error,
+                   metrics.root_mean_squared_log_error,
+                   metrics.root_median_squared_log_error,
+                   metrics.mean_absolute_error,
+                   metrics.median_absolute_error,
+                   metrics.mean_absolute_log_error,
+                   metrics.maximum_absolute_error]:
+        metric_name = str(metric).split(' ')[1]
+        metric_value = metric(Y_predicted, Y_validation)
+        print(f'{metric_name} = {metric_value}')
     print()
 
 
@@ -40,11 +42,11 @@ def main():
     check_regressor(*regression_dataset,
                     lm.LinearRegressor(alpha=0.001, epochs=1000))
     check_regressor(*regression_dataset,
-                    dt.DecisionTreeRegressor(max_depth=8, min_samples=8))
+                    dt.DecisionTreeRegressor(max_depth=8, min_samples=20))
     check_regressor(*regression_dataset,
                     knn.KNearestNeighborsRegressor(k=5))
     check_regressor(*regression_dataset,
-                    rf.RandomForestRegressor(estimators=15, max_depth=8, min_samples=8))
+                    rf.RandomForestRegressor(estimators=15, max_depth=8, min_samples=20))
     check_regressor(*regression_dataset,
                     svm.LinearSupportVectorRegressor(alpha=0.001, epochs=1000, parameter=1.0, epsilon=0.0))
 
